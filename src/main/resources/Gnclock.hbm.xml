@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 1, 2013 9:24:39 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="priv.nordea.db.hib.Gnclock" table="gnclock">
+        <composite-id name="id" class="priv.nordea.db.hib.GnclockId">
+            <key-property name="hostname" type="string">
+                <column name="Hostname" length="2000000000" />
+            </key-property>
+            <key-property name="pid" type="java.lang.Integer">
+                <column name="PID" />
+            </key-property>
+        </composite-id>
+    </class>
+</hibernate-mapping>

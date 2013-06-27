@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 1, 2013 9:24:39 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="priv.nordea.db.hib.Entries" table="entries">
+        <id name="guid" type="string">
+            <column name="guid" length="2000000000" />
+            <generator class="assigned" />
+        </id>
+        <property name="date" type="string">
+            <column name="date" length="2000000000" not-null="true" />
+        </property>
+        <property name="dateEntered" type="string">
+            <column name="date_entered" length="2000000000" />
+        </property>
+        <property name="description" type="string">
+            <column name="description" length="2000000000" />
+        </property>
+        <property name="action" type="string">
+            <column name="action" length="2000000000" />
+        </property>
+        <property name="notes" type="string">
+            <column name="notes" length="2000000000" />
+        </property>
+        <property name="quantityNum" type="string">
+            <column name="quantity_num" length="2000000000" />
+        </property>
+        <property name="quantityDenom" type="string">
+            <column name="quantity_denom" length="2000000000" />
+        </property>
+        <property name="IAcct" type="string">
+            <column name="i_acct" length="2000000000" />
+        </property>
+        <property name="IPriceNum" type="string">
+            <column name="i_price_num" length="2000000000" />
+        </property>
+        <property name="IPriceDenom" type="string">
+            <column name="i_price_denom" length="2000000000" />
+        </property>
+        <property name="IDiscountNum" type="string">
+            <column name="i_discount_num" length="2000000000" />
+        </property>
+        <property name="IDiscountDenom" type="string">
+            <column name="i_discount_denom" length="2000000000" />
+        </property>
+        <property name="invoice" type="string">
+            <column name="invoice" length="2000000000" />
+        </property>
+        <property name="IDiscType" type="string">
+            <column name="i_disc_type" length="2000000000" />
+        </property>
+        <property name="IDiscHow" type="string">
+            <column name="i_disc_how" length="2000000000" />
+        </property>
+        <property name="ITaxable" type="java.lang.Integer">
+            <column name="i_taxable" />
+        </property>
+        <property name="ITaxincluded" type="java.lang.Integer">
+            <column name="i_taxincluded" />
+        </property>
+        <property name="ITaxtable" type="string">
+            <column name="i_taxtable" length="2000000000" />
+        </property>
+        <property name="BAcct" type="string">
+            <column name="b_acct" length="2000000000" />
+        </property>
+        <property name="BPriceNum" type="string">
+            <column name="b_price_num" length="2000000000" />
+        </property>
+        <property name="BPriceDenom" type="string">
+            <column name="b_price_denom" length="2000000000" />
+        </property>
+        <property name="bill" type="string">
+            <column name="bill" length="2000000000" />
+        </property>
+        <property name="BTaxable" type="java.lang.Integer">
+            <column name="b_taxable" />
+        </property>
+        <property name="BTaxincluded" type="java.lang.Integer">
+            <column name="b_taxincluded" />
+        </property>
+        <property name="BTaxtable" type="string">
+            <column name="b_taxtable" length="2000000000" />
+        </property>
+        <property name="BPaytype" type="java.lang.Integer">
+            <column name="b_paytype" />
+        </property>
+        <property name="billable" type="java.lang.Integer">
+            <column name="billable" />
+        </property>
+        <property name="billtoType" type="java.lang.Integer">
+            <column name="billto_type" />
+        </property>
+        <property name="billtoGuid" type="string">
+            <column name="billto_guid" length="2000000000" />
+        </property>
+        <property name="orderGuid" type="string">
+            <column name="order_guid" length="2000000000" />
+        </property>
+    </class>
+</hibernate-mapping>

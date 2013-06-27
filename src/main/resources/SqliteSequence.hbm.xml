@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 1, 2013 9:24:39 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="priv.nordea.db.hib.SqliteSequence" table="sqlite_sequence">
+        <composite-id name="id" class="priv.nordea.db.hib.SqliteSequenceId">
+            <key-property name="name" type="string">
+                <column name="name" length="2000000000" />
+            </key-property>
+            <key-property name="seq" type="string">
+                <column name="seq" length="2000000000" />
+            </key-property>
+        </composite-id>
+    </class>
+</hibernate-mapping>

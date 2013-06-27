@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 1, 2013 9:24:39 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="priv.nordea.db.hib.Schedxactions" table="schedxactions">
+        <id name="guid" type="string">
+            <column name="guid" length="2000000000" />
+            <generator class="assigned" />
+        </id>
+        <property name="name" type="string">
+            <column name="name" length="2000000000" />
+        </property>
+        <property name="enabled" type="int">
+            <column name="enabled" not-null="true" />
+        </property>
+        <property name="startDate" type="string">
+            <column name="start_date" length="2000000000" />
+        </property>
+        <property name="endDate" type="string">
+            <column name="end_date" length="2000000000" />
+        </property>
+        <property name="lastOccur" type="string">
+            <column name="last_occur" length="2000000000" />
+        </property>
+        <property name="numOccur" type="int">
+            <column name="num_occur" not-null="true" />
+        </property>
+        <property name="remOccur" type="int">
+            <column name="rem_occur" not-null="true" />
+        </property>
+        <property name="autoCreate" type="int">
+            <column name="auto_create" not-null="true" />
+        </property>
+        <property name="autoNotify" type="int">
+            <column name="auto_notify" not-null="true" />
+        </property>
+        <property name="advCreation" type="int">
+            <column name="adv_creation" not-null="true" />
+        </property>
+        <property name="advNotify" type="int">
+            <column name="adv_notify" not-null="true" />
+        </property>
+        <property name="instanceCount" type="int">
+            <column name="instance_count" not-null="true" />
+        </property>
+        <property name="templateActGuid" type="string">
+            <column name="template_act_guid" length="2000000000" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

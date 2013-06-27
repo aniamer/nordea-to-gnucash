@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 1, 2013 9:24:39 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="priv.nordea.db.hib.Commodities" table="commodities">
+        <id name="guid" type="string">
+            <column name="guid" length="2000000000" />
+            <generator class="assigned" />
+        </id>
+        <property name="namespace" type="string">
+            <column name="namespace" length="2000000000" not-null="true" />
+        </property>
+        <property name="mnemonic" type="string">
+            <column name="mnemonic" length="2000000000" not-null="true" />
+        </property>
+        <property name="fullname" type="string">
+            <column name="fullname" length="2000000000" />
+        </property>
+        <property name="cusip" type="string">
+            <column name="cusip" length="2000000000" />
+        </property>
+        <property name="fraction" type="int">
+            <column name="fraction" not-null="true" />
+        </property>
+        <property name="quoteFlag" type="int">
+            <column name="quote_flag" not-null="true" />
+        </property>
+        <property name="quoteSource" type="string">
+            <column name="quote_source" length="2000000000" />
+        </property>
+        <property name="quoteTz" type="string">
+            <column name="quote_tz" length="2000000000" />
+        </property>
+    </class>
+</hibernate-mapping>
