@@ -12,9 +12,9 @@ import au.com.bytecode.opencsv.bean.CsvToBean;
 import au.com.bytecode.opencsv.bean.MappingStrategy;
 
 public class CsvToNordeaBean extends CsvToBean<NordeaCSVRow>{
-//private static final String pattern1 = "([0-9]*)\\.([0-9]*),([0-9]*)";
-//private static final String pattern2 = "([0-9])\\.";
-//private static final String pattern3 = ",([0-9])";
+private static final String pattern1 = "([0-9]*)\\.([0-9]*),([0-9]*)";
+private static final String pattern2 = "([0-9])\\.";
+private static final String pattern3 = ",([0-9])";
 
 private static Pattern regex1= Pattern.compile(pattern1);
 private static Pattern regex2= Pattern.compile(pattern2);
