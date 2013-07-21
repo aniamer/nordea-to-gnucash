@@ -1,14 +1,13 @@
 package priv.nordea.csv;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringWriter;
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
+import priv.nordea.db.hib.TransactionsHome;
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
 import au.com.bytecode.opencsv.bean.ColumnPositionMappingStrategy;
@@ -28,6 +27,8 @@ public class CsvBeanImporter {
 		CSVWriter csvConvertedwriter = new CSVWriter(writer,';');
 		
 		ColumnPositionMappingStrategy<NordeaCSVRow> strat = new ColumnPositionMappingStrategy<NordeaCSVRow>();
+		final DateComparator dateComparator = new DateComparator();
+		final SearchComparator searchComparator = new SearchComparator(); 
 	    strat.setType(NordeaCSVRow.class);
 	    String[] columns = new String[] {"date", "transaction", "category", "amount", "balance"}; // the fields to bind do in your JavaBean
 	    strat.setColumnMapping(columns);
@@ -35,7 +36,15 @@ public class CsvBeanImporter {
 	    CsvToNordeaBean csv = new CsvToNordeaBean();
 	    reader.readNext();
 	    List<NordeaCSVRow> list = csv.parse(strat, reader);
+	    Collections.sort(list, dateComparator);
 	    
+	    //TransactionsHome transHome = new TransactionsHome();
+	    String maxDate = "20130328";//transHome.findMaxDate().get(0);
+	    NordeaCSVRow maxInstance = new NordeaCSVRow();
+	    maxInstance.setDate(maxDate);
+	    maxDate = maxDate.substring(0, 7);
+	    int foundIndex = Collections.binarySearch(list, maxInstance, searchComparator);
+	    list = list.subList(foundIndex, list.size()-1);
 	    csvConvertedwriter.writeNext(new String[]{"Date","Transaktion","Withdraw","Deposit"});
 	    for(NordeaCSVRow row : list){
 	    	if(null != row.getAmount()){
@@ -48,6 +57,7 @@ public class CsvBeanImporter {
 		    			+ convertedRow.getDescription());
 	    	}
 	    }
+	    
 	    System.out.println("Done !");
 	}
 

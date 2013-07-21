@@ -10,7 +10,11 @@ import org.hibernate.LockMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+
+import com.sun.org.apache.xml.internal.resolver.helpers.Debug;
 
 import priv.nordea.db.hib.util.HibernateUtil;
 
@@ -137,5 +141,13 @@ public class TransactionsHome {
 			log.error("find by example failed", re);
 			throw re;
 		}
+	}
+	public List<String> findMaxDate(){
+		log.debug("find Transactions after the specified date");
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
+		List<String> result = session.createCriteria(Transactions.class).
+				setProjection(Projections.max("postDate")).list();
+		return result;
 	}
 }

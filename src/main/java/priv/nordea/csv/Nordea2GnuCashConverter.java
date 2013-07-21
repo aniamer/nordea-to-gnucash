@@ -10,7 +10,7 @@ public class Nordea2GnuCashConverter implements INordeaCSVConverter<GnuCashCsvRo
 	public GnuCashCsvRow parseNordeaRow(NordeaCSVRow row) {
 		Double amountValue = CurrencyParser.parse(row.getAmount(), new Locale("de", "DE"));
 		GnuCashCsvRow gnCashRow = new GnuCashCsvRow();
-		gnCashRow.setDate(row.getDate());
+		gnCashRow.setDate(row.getDate().replace("-", "")+"0000");
 		gnCashRow.setDescription(row.getTransaction());
 		
 //		if( valueString.startsWith("-")){
