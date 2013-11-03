@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 1, 2013 9:24:39 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="priv.nordea.db.hib.XAccountShop" table="x_account_shop">
+        <id name="accountName" type="string">
+            <column name="account_name" length="2000000000" />
+            
+        </id>
+        <property name="shopName" type="string">
+            <column name="shop_name" not-null="true" length="2000000000"/>
+        </property>
+        
+        
+    </class>
+</hibernate-mapping>

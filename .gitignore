@@ -25,3 +25,13 @@
 *.log
 *.sql
 *.sqlite
+
+# taget folder #
+######################
+target/**
+
+# eclipse files #
+######################
+.classpath
+.project
+.settings/

@@ -4,8 +4,8 @@ package priv.nordea.db.hib;
 
 import java.util.List;
 import javax.naming.InitialContext;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
+import org.jboss.logging.Logger;
 import org.hibernate.LockMode;
 import org.hibernate.SessionFactory;
 import static org.hibernate.criterion.Example.create;
@@ -17,7 +17,7 @@ import static org.hibernate.criterion.Example.create;
  */
 public class BudgetAmountsHome {
 
-	private static final Log log = LogFactory.getLog(BudgetAmountsHome.class);
+	private static final Logger log = Logger.getLogger(BudgetAmountsHome.class);
 
 	private final SessionFactory sessionFactory = getSessionFactory();
 

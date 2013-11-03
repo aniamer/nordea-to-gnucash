@@ -6,14 +6,14 @@
     <session-factory>
         <property name="hibernate.connection.driver_class">org.sqlite.JDBC</property>
         <property name="hibernate.connection.password"></property>
-        <property name="hibernate.connection.url">jdbc:sqlite:/home/mohamed/Documents/budget/gnucash/gnucash_database.gnucash</property>
+        <property name="hibernate.connection.url">jdbc:sqlite:/home/mohamed/Documents/budget/gnucash/gnucash_database_test.gnucash</property>
         <property name="hibernate.connection.username"></property>
         <property name="hibernate.current_session_context_class">org.hibernate.context.internal.ThreadLocalSessionContext</property>
-        <property name="hibernate.dialect">priv.nordea.db.hib.util.SQLiteDialect</property>
+        <property name="hibernate.dialect">eg.mohamed.amer.db.util.SQLiteDialect</property>
         <property name="hibernate.format_sql">true</property>
         <property name="hibernate.search.autoregister_listeners">false</property>
         <property name="hibernate.show_sql">true</property>
-        <mapping resource="Billterms.hbm.xml" />
+        <!-- <mapping resource="Billterms.hbm.xml" />
         <mapping resource="Books.hbm.xml" />
         <mapping resource="TaxtableEntries.hbm.xml" />
         <mapping resource="SqliteSequence.hbm.xml" />
@@ -37,7 +37,6 @@
         <mapping resource="Slots.hbm.xml" />
         <mapping resource="Gnclock.hbm.xml" />
         <mapping resource="Lots.hbm.xml" />
-        <mapping resource="Prices.hbm.xml" />
-        <mapping resource="XAccountShop.hbm.xml"/>
+        <mapping resource="Prices.hbm.xml" /> -->
     </session-factory>
 </hibernate-configuration>

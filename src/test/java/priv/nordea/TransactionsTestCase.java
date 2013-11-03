@@ -2,18 +2,20 @@ package priv.nordea;
 
 import java.util.List;
 
-import priv.nordea.db.hib.Transactions;
-import priv.nordea.db.hib.TransactionsHome;
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
-public class TransactionsTestCase extends TestCase {
+import priv.nordea.db.hib.TransactionsHome;
+
+public class TransactionsTestCase {
 	private TransactionsHome transHome;
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
+		
 		transHome = new TransactionsHome();
 	}
 
+	@Test
 	public void testFindAfterDate(){
 		List<String> result = transHome.findMaxDate();
 		for (String maxDate : result) {

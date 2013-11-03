@@ -21,9 +21,9 @@ import priv.nordea.db.hib.util.HibernateUtil;
  * @see priv.nordea.db.hib.Transactions
  * @author Hibernate Tools
  */
-public class TransactionsHome {
+public class XAccountShopHome {
 
-	private static final Logger log = Logger.getLogger(TransactionsHome.class);
+	private static final Logger log = Logger.getLogger(XAccountShopHome.class);
 
 	private final SessionFactory sessionFactory = getSessionFactory();
 
@@ -37,10 +37,10 @@ public class TransactionsHome {
 		}
 	}
 
-	public void persist(Transactions transientInstance) {
-		log.debug("persisting Transactions instance");
+	public void persist(XAccountShop accountShopInstance) {
+		log.debug("persisting XAccountShop instance");
 		try {
-			sessionFactory.getCurrentSession().persist(transientInstance);
+			sessionFactory.getCurrentSession().persist(accountShopInstance);
 			log.debug("persist successful");
 		} catch (RuntimeException re) {
 			log.error("persist failed", re);
@@ -48,8 +48,8 @@ public class TransactionsHome {
 		}
 	}
 
-	public void attachDirty(Transactions instance) {
-		log.debug("attaching dirty Transactions instance");
+	public void attachDirty(XAccountShop instance) {
+		log.debug("attaching dirty XAccountShop instance");
 		try {
 			sessionFactory.getCurrentSession().saveOrUpdate(instance);
 			log.debug("attach successful");
@@ -59,8 +59,8 @@ public class TransactionsHome {
 		}
 	}
 
-	public void attachClean(Transactions instance) {
-		log.debug("attaching clean Transactions instance");
+	public void attachClean(XAccountShop instance) {
+		log.debug("attaching clean XAccountShop instance");
 		try {
 			sessionFactory.getCurrentSession().lock(instance, LockMode.NONE);
 			log.debug("attach successful");
@@ -70,8 +70,8 @@ public class TransactionsHome {
 		}
 	}
 
-	public void delete(Transactions persistentInstance) {
-		log.debug("deleting Transactions instance");
+	public void delete(XAccountShop persistentInstance) {
+		log.debug("deleting XAccountShop instance");
 		try {
 			sessionFactory.getCurrentSession().delete(persistentInstance);
 			log.debug("delete successful");
@@ -81,8 +81,8 @@ public class TransactionsHome {
 		}
 	}
 
-	public Transactions merge(Transactions detachedInstance) {
-		log.debug("merging Transactions instance");
+	public Transactions merge(XAccountShop detachedInstance) {
+		log.debug("merging XAccountShop instance");
 		try {
 			Transactions result = (Transactions) sessionFactory
 					.getCurrentSession().merge(detachedInstance);
@@ -94,11 +94,11 @@ public class TransactionsHome {
 		}
 	}
 
-	public Transactions findById(java.lang.String id) {
-		log.debug("getting Transactions instance with id: " + id);
+	public XAccountShop findById(java.lang.String id) {
+		log.debug("getting XAccountShop instance with id: " + id);
 		try {
-			Transactions instance = (Transactions) sessionFactory
-					.getCurrentSession().get("priv.nordea.db.hib.Transactions",
+			XAccountShop instance = (XAccountShop) sessionFactory
+					.getCurrentSession().get("priv.nordea.db.hib.XAccountShop",
 							id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
@@ -111,39 +111,34 @@ public class TransactionsHome {
 			throw re;
 		}
 	}
-	public List<Transactions> findByPostDate(String postDate){
-		log.debug("finding Transactions instance by post date");
+	public List<XAccountShop> findByAccountName(String accountName){
+		log.debug("finding XAccountShop instance by account name");
 		try{
 			Session session = sessionFactory.getCurrentSession();
 			session.beginTransaction();
-			List<Transactions> result = (List<Transactions>)session.createCriteria(Transactions.class).add(Restrictions.eq("postDate", postDate)).list();
+			List<XAccountShop> result = (List<XAccountShop>)session.
+					createCriteria(XAccountShop.class).
+					add(Restrictions.eq("accountName", accountName)).list();
 			return result;
 		}catch (RuntimeException re){
-			log.error("find by post date failed", re);
+			log.error("find by account name failed", re);
 			throw re;
 		}
 	}
-	public List<Transactions> findByExample(Transactions instance) {
-		log.debug("finding Transactions instance by example");
+	public List<XAccountShop> findByExample(XAccountShop instance) {
+		log.debug("finding XAccountShop instance by account name");
 		try {
-			List<Transactions> results = (List<Transactions>) sessionFactory
+			List<XAccountShop> results = (List<XAccountShop>) sessionFactory
 					.getCurrentSession()
-					.createCriteria("priv.nordea.db.hib.Transactions")
+					.createCriteria("priv.nordea.db.hib.XAccountShop")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "
 					+ results.size());
 			return results;
 		} catch (RuntimeException re) {
-			log.error("find by example failed", re);
+			log.error("find by account name failed", re);
 			throw re;
 		}
 	}
-	public List<String> findMaxDate(){
-		log.debug("find Transactions after the specified date");
-		Session session = sessionFactory.getCurrentSession();
-		session.beginTransaction();
-		List<String> result = session.createCriteria(Transactions.class).
-				setProjection(Projections.max("postDate")).list();
-		return result;
-	}
+
 }

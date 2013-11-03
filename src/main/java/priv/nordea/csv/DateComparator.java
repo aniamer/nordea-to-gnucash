@@ -5,7 +5,6 @@ import java.util.Comparator;
 
 
 public class DateComparator implements Comparator<NordeaCSVRow> {
-@Override
 public int compare(NordeaCSVRow o1, NordeaCSVRow o2) {
 	// TODO Auto-generated method stub
 	if(!o1.getDate().isEmpty() && !o2.getDate().isEmpty()){

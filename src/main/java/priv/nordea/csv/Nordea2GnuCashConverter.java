@@ -1,12 +1,9 @@
 package priv.nordea.csv;
 
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.Locale;
 
 public class Nordea2GnuCashConverter implements INordeaCSVConverter<GnuCashCsvRow,NordeaCSVRow> {
 
-	@Override
 	public GnuCashCsvRow parseNordeaRow(NordeaCSVRow row) {
 		Double amountValue = CurrencyParser.parse(row.getAmount(), new Locale("de", "DE"));
 		GnuCashCsvRow gnCashRow = new GnuCashCsvRow();

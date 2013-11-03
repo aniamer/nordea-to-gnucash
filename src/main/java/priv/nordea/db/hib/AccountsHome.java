@@ -2,18 +2,17 @@ package priv.nordea.db.hib;
 
 // Generated Jun 1, 2013 9:24:39 AM by Hibernate Tools 3.4.0.CR1
 
+import static org.hibernate.criterion.Example.create;
+
 import java.util.List;
-import javax.naming.InitialContext;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.hibernate.Hibernate;
+
 import org.hibernate.LockMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.jboss.logging.Logger;
 
 import priv.nordea.db.hib.util.HibernateUtil;
-import static org.hibernate.criterion.Example.create;
 
 /**
  * Home object for domain model class Accounts.
@@ -22,8 +21,8 @@ import static org.hibernate.criterion.Example.create;
  */
 public class AccountsHome {
 
-	private static final Log log = LogFactory.getLog(AccountsHome.class);
-
+	private static final Logger log = Logger.getLogger(AccountsHome.class);
+	
 	private final SessionFactory sessionFactory = getSessionFactory();
 
 	protected SessionFactory getSessionFactory() {

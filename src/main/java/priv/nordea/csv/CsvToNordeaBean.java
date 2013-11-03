@@ -2,11 +2,7 @@ package priv.nordea.csv;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
-import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import au.com.bytecode.opencsv.bean.CsvToBean;
 import au.com.bytecode.opencsv.bean.MappingStrategy;
