@@ -74,12 +74,12 @@ public class CsvBeanImporter {
 	    TransactionsHome transHome = new TransactionsHome();
 	    String maxDate = transHome.findMaxDate().get(0);
 	    NordeaCSVRow maxInstance = new NordeaCSVRow();
+	    maxDate = maxDate.substring(0, 8);
 	    maxInstance.setDate(maxDate);
-	    maxDate = maxDate.substring(0, 7);
 	    
 	    int foundIndex = Collections.binarySearch(list, maxInstance, searchComparator);
 	    
-	    if(foundIndex >0)
+	    if(foundIndex > 0)
 	    	list = list.subList(foundIndex, list.size()-1);
 	    else
 	    	list = Collections.emptyList();

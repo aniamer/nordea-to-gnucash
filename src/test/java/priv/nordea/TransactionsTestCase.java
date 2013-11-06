@@ -1,7 +1,5 @@
 package priv.nordea;
 
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,9 +15,7 @@ public class TransactionsTestCase {
 
 	@Test
 	public void testFindAfterDate(){
-		List<String> result = transHome.findMaxDate();
-		for (String maxDate : result) {
-			System.out.println(maxDate);
-		}
+		String result = transHome.findMaxDate().get(0);
+		System.out.println(result.substring(0, 8));
 	}
 }

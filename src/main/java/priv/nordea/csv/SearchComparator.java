@@ -4,7 +4,6 @@ import java.util.Comparator;
 
 public class SearchComparator implements Comparator<NordeaCSVRow> {
 	public int compare(NordeaCSVRow o1, NordeaCSVRow o2) {
-		// TODO Auto-generated method stub
 		if(!o1.getDate().isEmpty() && !o2.getDate().isEmpty()){
 			String dateString1 = o1.getDate().replace("-", "");
 			String dateString2 = o2.getDate().replace("-", "");
