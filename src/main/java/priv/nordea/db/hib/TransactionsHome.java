@@ -4,16 +4,23 @@ package priv.nordea.db.hib;
 
 import static org.hibernate.criterion.Example.create;
 
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
-
+import java.util.Set;
+import java.util.UUID;
 
 import org.jboss.logging.Logger;
 import org.hibernate.LockMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
+import priv.nordea.db.hib.util.GNUCashGUID;
 import priv.nordea.db.hib.util.HibernateUtil;
 
 /**
@@ -40,7 +47,10 @@ public class TransactionsHome {
 	public void persist(Transactions transientInstance) {
 		log.debug("persisting Transactions instance");
 		try {
-			sessionFactory.getCurrentSession().persist(transientInstance);
+			Session currentSession = sessionFactory.getCurrentSession();
+			Transaction beginTransaction = currentSession.beginTransaction();
+			currentSession.persist(transientInstance);			
+			beginTransaction.commit();
 			log.debug("persist successful");
 		} catch (RuntimeException re) {
 			log.error("persist failed", re);
@@ -51,6 +61,8 @@ public class TransactionsHome {
 	public void attachDirty(Transactions instance) {
 		log.debug("attaching dirty Transactions instance");
 		try {
+			Session session = sessionFactory.getCurrentSession();
+			session.beginTransaction();
 			sessionFactory.getCurrentSession().saveOrUpdate(instance);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
@@ -141,9 +153,48 @@ public class TransactionsHome {
 	public List<String> findMaxDate(){
 		log.debug("find Transactions after the specified date");
 		Session session = sessionFactory.getCurrentSession();
-		session.beginTransaction();
+		Transaction beginTransaction = session.beginTransaction();
 		List<String> result = session.createCriteria(Transactions.class).
 				setProjection(Projections.max("postDate")).list();
+		beginTransaction.commit();
 		return result;
 	}
+	
+	public void insertTransction(Accounts account,Transactions transaction) throws Exception{
+
+		HashSet<Splits> splits = new HashSet<Splits>();
+		Splits startSplit = new Splits();
+		startSplit.setAccount(new AccountsHome().findById("6607f6b4c9d813c68757f31bd90c3709"));
+		startSplit.setGuid(GNUCashGUID.randomGUId());
+		startSplit.setAccountGuid("6607f6b4c9d813c68757f31bd90c3709");
+		startSplit.setQuantityDenom("100");
+		startSplit.setValueDenom("100");
+		startSplit.setQuantityNum("950");
+		startSplit.setValueNum("950");
+		startSplit.setTxGuid(transaction.getGuid());
+		startSplit.setReconcileState("n");
+		startSplit.setMemo("");
+		startSplit.setAction("");
+		splits.add(startSplit);
+		
+		
+		Splits closeSplit = new Splits();
+		closeSplit.setAccount(new AccountsHome().findById("d6db5addd6df5382ff9245479098ef84"));
+		closeSplit.setGuid(GNUCashGUID.randomGUId());
+		closeSplit.setAccountGuid("d6db5addd6df5382ff9245479098ef84");
+		closeSplit.setQuantityDenom("100");
+		closeSplit.setValueDenom("100");
+		closeSplit.setQuantityNum("-950");
+		closeSplit.setValueNum("-950");
+		closeSplit.setTxGuid(transaction.getGuid());
+		closeSplit.setReconcileState("n");
+		closeSplit.setMemo("");
+		closeSplit.setAction("");
+		splits.add(startSplit);
+		SplitsHome splitsHome = new SplitsHome();
+		splitsHome.persist(closeSplit);
+		splitsHome.persist(startSplit);
+		
+	}
+
 }

@@ -5,7 +5,16 @@ public class GnuCashCsvRow {
 	private String description;
 	private Double withdrawAmount;
 	private Double depositAmount;
+	private String category;
 	
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
 	public GnuCashCsvRow(){
 		
 	}

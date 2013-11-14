@@ -95,13 +95,16 @@ public class AccountsHome {
 	public Accounts findById(java.lang.String id) {
 		log.debug("getting Accounts instance with id: " + id);
 		try {
-			Accounts instance = (Accounts) sessionFactory.getCurrentSession()
+			Session currentSession = sessionFactory.getCurrentSession();
+			Transaction beginTransaction = currentSession.beginTransaction();
+			Accounts instance = (Accounts) currentSession
 					.get("priv.nordea.db.hib.Accounts", id);
 			if (instance == null) {
 				log.debug("get successful, no instance found");
 			} else {
 				log.debug("get successful, instance found");
 			}
+			beginTransaction.commit();
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);

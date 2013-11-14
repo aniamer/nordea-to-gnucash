@@ -6,11 +6,11 @@ import static org.hibernate.criterion.Example.create;
 
 import java.util.List;
 
-
 import org.jboss.logging.Logger;
 import org.hibernate.LockMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
@@ -108,6 +108,21 @@ public class XAccountShopHome {
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
+			throw re;
+		}
+	}
+	public List<XAccountShop> findByShopName(String shopName){
+		log.debug("finding XAccountShop instance by account name");
+		try{
+			Session session = sessionFactory.getCurrentSession();
+			session.beginTransaction();
+			List<XAccountShop> result = (List<XAccountShop>)session.
+					createCriteria(XAccountShop.class).
+					add(Restrictions.like("shopName", shopName,MatchMode.ANYWHERE)).list();
+			session.close();
+			return result;
+		}catch (RuntimeException re){
+			log.error("find by account name failed", re);
 			throw re;
 		}
 	}

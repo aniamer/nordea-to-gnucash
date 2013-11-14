@@ -1,33 +1,47 @@
 package priv.nordea.csv;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
+import priv.nordea.db.hib.Accounts;
+import priv.nordea.db.hib.Commodities;
+import priv.nordea.db.hib.CommoditiesHome;
+import priv.nordea.db.hib.Splits;
+import priv.nordea.db.hib.Transactions;
 import priv.nordea.db.hib.TransactionsHome;
+import priv.nordea.qif.QIFWirter;
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
 import au.com.bytecode.opencsv.bean.ColumnPositionMappingStrategy;
 
 public class CsvBeanImporter {
 	private static final String filePath ="/home/mohamed/Downloads/export.csv";
-	private static final String outFilePath ="/home/mohamed/Downloads/gnu_cash_export.csv";
+	private static final String outFilePath ="/home/mohamed/Downloads/gnu_cash_export.qif";
 	private static final Nordea2GnuCashConverter converter= new Nordea2GnuCashConverter();
 	
 	/**
 	 * @param args
-	 * @throws IOException 
+	 * @throws Exception 
 	 */
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		importNordeaCSV();
 	}
 
-	private static void importNordeaCSV() throws FileNotFoundException,
-			IOException {
-		CSVReader reader = new CSVReader(new FileReader(filePath));
+	private static void importNordeaCSV() throws Exception {
+		CSVReader reader = new CSVReader(new InputStreamReader(new FileInputStream(filePath), "UTF-8"));
 		
 		ColumnPositionMappingStrategy<NordeaCSVRow> strat = new ColumnPositionMappingStrategy<NordeaCSVRow>();
 		final DateComparator dateComparator = new DateComparator();
@@ -40,30 +54,30 @@ public class CsvBeanImporter {
 	    CsvToNordeaBean csv = new CsvToNordeaBean();
 	    reader.readNext();
 	    List<NordeaCSVRow> list = csv.parse(strat, reader);
-	    list = findLatestTransactions(dateComparator, searchComparator, list);
+//	    list = findLatestTransactions(dateComparator, searchComparator, list);
 	    
 	    convertAndWrite(list);
 	}
 
 	private static void convertAndWrite(List<NordeaCSVRow> list)
-			throws IOException {
-		FileWriter writer = new FileWriter(outFilePath);
-		CSVWriter csvConvertedwriter = new CSVWriter(writer,';');
-		
-	    csvConvertedwriter.writeNext(new String[]{"Date","Transaktion","Withdraw","Deposit"});
-	    
+			throws Exception {
+		QIFWirter writer = new QIFWirter( new OutputStreamWriter(new FileOutputStream(outFilePath),"UTF-8"));
+//		FileWriter writer = new FileWriter(outFilePath);
+//		CSVWriter csvConvertedwriter = new CSVWriter(new OutputStreamWriter(System.out),';');
+//		
+//	    csvConvertedwriter.writeNext(new String[]{"Date","Transaktion","Withdraw","Deposit"});
+	    writer.writeHeader();
 	    for(NordeaCSVRow row : list){
 	    	if(null != row.getAmount()){
 	    		GnuCashCsvRow convertedRow= converter.parseNordeaRow(row);
-	    		csvConvertedwriter.writeNext(new String[]{convertedRow.getDate(),
-	    				convertedRow.getDescription(),convertedRow.getWithdrawAmount().toString(),
-	    				convertedRow.getDepositAmount().toString()});
-		    	System.out.println(convertedRow.getDate()+"\t"
-		    			+convertedRow.getDepositAmount()+"\t"+convertedRow.getWithdrawAmount()+"\t"
-		    			+ convertedRow.getDescription());
+	    		writer.writeRow(convertedRow);
+//	    		csvConvertedwriter.writeNext(new String[]{convertedRow.getDate(),
+//	    				convertedRow.getDescription(),convertedRow.getWithdrawAmount().toString(),
+//	    				convertedRow.getDepositAmount().toString()});
 	    	}
 	    }
-	    csvConvertedwriter.close();
+	    writer.close();
+//	    csvConvertedwriter.close();
 	}
 
 	private static List<NordeaCSVRow> findLatestTransactions(
@@ -86,5 +100,6 @@ public class CsvBeanImporter {
 	    
 		return list;
 	}
-
+	
+	
 }

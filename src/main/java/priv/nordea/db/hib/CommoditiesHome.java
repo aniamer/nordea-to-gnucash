@@ -3,11 +3,16 @@ package priv.nordea.db.hib;
 // Generated Jun 1, 2013 9:24:39 AM by Hibernate Tools 3.4.0.CR1
 
 import java.util.List;
+
 import javax.naming.InitialContext;
 
 import org.jboss.logging.Logger;
 import org.hibernate.LockMode;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
+import priv.nordea.db.hib.util.HibernateUtil;
 import static org.hibernate.criterion.Example.create;
 
 /**
@@ -23,8 +28,7 @@ public class CommoditiesHome {
 
 	protected SessionFactory getSessionFactory() {
 		try {
-			return (SessionFactory) new InitialContext()
-					.lookup("SessionFactory");
+			return new HibernateUtil().getSessionFactory();
 		} catch (Exception e) {
 			log.error("Could not locate SessionFactory in JNDI", e);
 			throw new IllegalStateException(
@@ -110,12 +114,15 @@ public class CommoditiesHome {
 	public List<Commodities> findByExample(Commodities instance) {
 		log.debug("finding Commodities instance by example");
 		try {
+			Session session = sessionFactory.getCurrentSession();
+			Transaction beginTransaction = session.beginTransaction();
 			List<Commodities> results = (List<Commodities>) sessionFactory
 					.getCurrentSession()
 					.createCriteria("priv.nordea.db.hib.Commodities")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "
 					+ results.size());
+			beginTransaction.commit();
 			return results;
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
