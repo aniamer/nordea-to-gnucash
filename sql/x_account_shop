@@ -1,0 +1,5 @@
+CREATE TABLE "x_account_shop" (
+    "account_name" TEXT NOT NULL,
+    "shop_name" TEXT NOT NULL,
+    FOREIGN KEY(account_name) REFERENCES ACCOUNTS(NAME)
+)

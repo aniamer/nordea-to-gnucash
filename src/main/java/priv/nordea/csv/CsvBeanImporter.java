@@ -1,67 +1,77 @@
 package priv.nordea.csv;
 
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
-import priv.nordea.db.hib.Accounts;
-import priv.nordea.db.hib.Commodities;
-import priv.nordea.db.hib.CommoditiesHome;
-import priv.nordea.db.hib.Splits;
-import priv.nordea.db.hib.Transactions;
 import priv.nordea.db.hib.TransactionsHome;
 import priv.nordea.qif.QIFWirter;
 import au.com.bytecode.opencsv.CSVReader;
-import au.com.bytecode.opencsv.CSVWriter;
 import au.com.bytecode.opencsv.bean.ColumnPositionMappingStrategy;
 
 public class CsvBeanImporter {
-	private static final String filePath ="/home/mohamed/Downloads/export.csv";
-	private static final String outFilePath ="/home/mohamed/Downloads/gnu_cash_export.qif";
+//	private static final String filePath ="/home/mohamed/Downloads/bank/";
+//	private static final String outFilePath ="/home/mohamed/Downloads/bank/";
 	private static final Nordea2GnuCashConverter converter= new Nordea2GnuCashConverter();
 	
 	/**
 	 * @param args
 	 * @throws Exception 
 	 */
-	public static void main(String[] args) throws Exception {
-		importNordeaCSV();
+	public static void main(String[] args) {
+		if(!new File(args[0]).exists())
+			throw new RuntimeException("file path doesn't exists !");
+		try {
+			importNordeaCSV(args[0]);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	private static void importNordeaCSV() throws Exception {
-		CSVReader reader = new CSVReader(new InputStreamReader(new FileInputStream(filePath), "UTF-8"));
+	private static void importNordeaCSV(String filePath) throws Exception {
+		
 		
 		ColumnPositionMappingStrategy<NordeaCSVRow> strat = new ColumnPositionMappingStrategy<NordeaCSVRow>();
 		final DateComparator dateComparator = new DateComparator();
 		final SearchComparator searchComparator = new SearchComparator(); 
 		
+		
 	    strat.setType(NordeaCSVRow.class);
 	    String[] columns = new String[] {"date", "transaction", "category", "amount", "balance"}; // the fields to bind do in your JavaBean
 	    strat.setColumnMapping(columns);
+	    File file = new File(filePath);
+	    if (file.isDirectory()) {
+			for (File oneFile : file.listFiles()) {
+				CSVReader reader = new CSVReader(new InputStreamReader(
+						new FileInputStream(oneFile), "UTF-8"));
+				CsvToNordeaBean csv = new CsvToNordeaBean();
+				reader.readNext();
+				List<NordeaCSVRow> list = csv.parse(strat, reader);
+				//		    list = findLatestTransactions(dateComparator, searchComparator, list);
 
-	    CsvToNordeaBean csv = new CsvToNordeaBean();
-	    reader.readNext();
-	    List<NordeaCSVRow> list = csv.parse(strat, reader);
-//	    list = findLatestTransactions(dateComparator, searchComparator, list);
-	    
-	    convertAndWrite(list);
+				convertAndWrite(list, oneFile.getName(), oneFile.getParent());
+			}
+		}
+	    else{
+			CSVReader reader = new CSVReader(new InputStreamReader(
+					new FileInputStream(file), "UTF-8"));
+			CsvToNordeaBean csv = new CsvToNordeaBean();
+			reader.readNext();
+			List<NordeaCSVRow> list = csv.parse(strat, reader);
+			//		    list = findLatestTransactions(dateComparator, searchComparator, list);
+
+			convertAndWrite(list, file.getName(), file.getParent());
+	    }
 	}
 
-	private static void convertAndWrite(List<NordeaCSVRow> list)
+	private static void convertAndWrite(List<NordeaCSVRow> list,String fileName, String filePath)
 			throws Exception {
-		QIFWirter writer = new QIFWirter( new OutputStreamWriter(new FileOutputStream(outFilePath),"UTF-8"));
+		QIFWirter writer = new QIFWirter( new OutputStreamWriter(new FileOutputStream(filePath+"/"+fileName.split("\\.")[0]+".qif"),"UTF-8"));
 //		FileWriter writer = new FileWriter(outFilePath);
 //		CSVWriter csvConvertedwriter = new CSVWriter(new OutputStreamWriter(System.out),';');
 //		

@@ -32,7 +32,7 @@ public class TransactionsTestCase {
 	@Before
 	public void setUp() throws Exception {
 		
-//		transHome = new TransactionsHome();
+		transHome = new TransactionsHome();
 	}
 
 	@Test

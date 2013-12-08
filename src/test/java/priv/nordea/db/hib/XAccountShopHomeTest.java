@@ -19,7 +19,7 @@ public class XAccountShopHomeTest {
 	public void testFindByAccountName() {
 		List<XAccountShop> accountShop = accountShopDao.findByAccountName("ComHem");
 		assertThat(accountShop.size(), is(1));
-		assertThat(accountShop.get(0).getShopName(),is("COMHEM"));
+		assertThat(accountShop.get(0).getShopName(),is("Com Hem"));
 
 	}
 

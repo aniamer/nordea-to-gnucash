@@ -1,5 +1,6 @@
 package priv.nordea;
 
+import static org.junit.Assert.*;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -35,4 +36,14 @@ public class AppTest
     {
         assertTrue( true );
     }
+    @org.junit.Test
+	public void testSplit() throws Exception {
+    	String path = "app.csv";
+    	String[] split = path.split("\\.");
+    	for (int i = 0; i < split.length; i++) {
+			System.out.println(split[i]);
+		}
+    	System.out.println("DONE");
+		
+	}
 }

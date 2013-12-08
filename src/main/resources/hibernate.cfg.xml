@@ -6,7 +6,7 @@
     <session-factory>
         <property name="hibernate.connection.driver_class">org.sqlite.JDBC</property>
         <property name="hibernate.connection.password"></property>
-        <property name="hibernate.connection.url">jdbc:sqlite:/home/mohamed/Documents/budget/gnucash/db/gnucash_database_test.gnucash</property>
+        <property name="hibernate.connection.url">jdbc:sqlite:/home/mohamed/Documents/budget/gnucash/db/home_budget_sqlite.gnucash</property>
         <property name="hibernate.connection.username"></property>
         <property name="hibernate.current_session_context_class">org.hibernate.context.internal.ThreadLocalSessionContext</property>
         <property name="hibernate.dialect">priv.nordea.db.hib.util.SQLiteDialect</property>
